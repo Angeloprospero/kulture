@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use App\Models\user;
 use Auth;
-use Illu
 use validator;
+use App\Models\user;
+use PharIo\Manifest\Author;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 class AuthController extends Controller
 {
     //
@@ -31,37 +32,42 @@ class AuthController extends Controller
         $token = rand(000, 999);
         return response ()->json(['message'=>'registered', $user, $token ],200);
     }
-    function checklogin(Request $request)
+    function login(Request $request)
     {
-     $this->validate($request, [
-      'email'   => 'required|email',
-      'password'  => 'required|alphaNum|min:3'
-     ]);
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required|alphaNum|min:3'
+        ]);
 
-     $user_data = array(
-      'email'  => $request->get('email'),
-      'password' => $request->get('password')
-     );
-
-     if(Auth::attempt($user_data))
+        $user_data = array([
+                'email' => $request->get('email'),
+                'password' => $request->get('password')
+            ]
+        );
+        if(!FacadesAuth::attempt($user_data))
      {
-      return redirect('main/successlogin');
+            return response()->json(['message' => 'loggedin']);
      }
      else
      {
-      return back()->with('error', 'Wrong Login Details');
+      return response()->json('error', 'Wrong Login Details');
+
+
      }
 
     }
 
-    function successlogin()
+    function succeslogin()
     {
-     return view('successlogin');
+     return response ()->json(['message'=>'login' ],200);
     }
 
     function logout()
     {
-     Auth::logout();
-     return redirect('main');
+     FacadesAuth::logout();
+     return response()->json('loggedout');
     }
+        
+    
+     
 }
