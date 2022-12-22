@@ -38,7 +38,8 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|alphaNum|min:3'
         ]);
-
+        $user = user::where('email', $request->email)->first();
+        if(!$u)
         $user_data = array([
                 'email' => $request->get('email'),
                 'password' => $request->get('password')
