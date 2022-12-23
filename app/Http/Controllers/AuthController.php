@@ -58,14 +58,23 @@ class AuthController extends Controller
         if (!Hash::check($request-> password, $user->password)) {
             throw ValidationException::withMessages(["message" => "wrong details"]);
         }
+        return response()->json(['message' => 'user logged in',$user],200);
 
     }
+
+    public function passwordreset(){
+
+    }
+
 
     public function logout(Request $request)
     {
         FacadesAuth::logout();
         return response()->json('loggedout');
     }
+
+
+
 
 
 
