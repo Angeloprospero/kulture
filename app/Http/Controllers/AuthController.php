@@ -59,15 +59,15 @@ class AuthController extends Controller
             throw ValidationException::withMessages(["message" => "wrong details"]);
         }
 
-
-
-        function logout(Request $request)
-        {
-            FacadesAuth::logout();
-            return response()->json('loggedout');
-        }
-
     }
+
+    public function logout(Request $request)
+    {
+        FacadesAuth::logout();
+        return response()->json('loggedout');
+    }
+
+
 
 
         /*
