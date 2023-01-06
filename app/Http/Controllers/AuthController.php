@@ -67,8 +67,9 @@ class AuthController extends Controller
 
         $request->validate([
             'email'=>'required|email',
-            'password'=>'required|confirmed',
-            'token'=>'required'
+            //'password'=>'required|confirmed',
+            'password'=>'required',
+            //'token'=>'required'
         ]);
         //this code is selecting a single user from the database with a matching email address
         $user=user::where('email', [$request->email])->first();
@@ -102,6 +103,10 @@ class AuthController extends Controller
     {
         FacadesAuth::logout();
         return response()->json('loggedout');
+    }
+
+    public function search(){
+        return $this->belongsTo(search::class);
     }
 
 
